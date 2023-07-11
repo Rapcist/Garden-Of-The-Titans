@@ -6,4 +6,7 @@ the contents of these headers were placed in the std namespace."
 Читаю шилдта и возник вопрос. Если имена функций SFL вложены в std, 
 почему они всё равно находятся в глобальном пространстве
 (т.е. к ним можно обращаться без using namespace std)?
+--------------
+SemiAnswer: 
 <cstdio> header file will always import all its identifiers in the std namespace and maybe in the global namespace.
+--------------
