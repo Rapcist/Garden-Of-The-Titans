@@ -1,2 +1,2 @@
-# The-Garden-of-Titans
+# Garden-Of-The-Titans
 Issues, problems, thoughts,
