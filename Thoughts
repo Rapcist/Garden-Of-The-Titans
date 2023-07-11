@@ -1,1 +1,9 @@
-
+1.Namespace and SFL
+"Originally, the names of the C++ library functions, 
+etc., were simply put into the global namespace (as they are in C). 
+However, with the advent of the new-style headers, 
+the contents of these headers were placed in the std namespace." 
+Читаю шилдта и возник вопрос. Если имена функций SFL вложены в std, 
+почему они всё равно находятся в глобальном пространстве
+(т.е. к ним можно обращаться без using namespace std)?
+<cstdio> header file will always import all its identifiers in the std namespace and maybe in the global namespace.
