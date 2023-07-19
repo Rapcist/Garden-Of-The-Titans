@@ -12,25 +12,28 @@ public:
 
 //---------------------
 
-template <typename T> class loc{
-    public:
-    T show();
+template <typename T>
+class loc{
+  public:
+  T show();
 };
 
 template <class T>
-T loc<T>::show() {return (T)0;}
+inline T loc<T>::show() {return 0;}
 
 
 //function member specialization 
 
 template <>
-int loc<int>::show() {return 0;}
+inline int loc<int>::show() {return 0;}
 
 // class specialization 
+
 template <> class loc<double>{
     public:
     double show();
 };
-double loc<double>::show(){return 0;}
+
+inline double loc<double>::show(){return 0;}
 
 
