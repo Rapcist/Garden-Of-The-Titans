@@ -30,8 +30,8 @@ inline int loc<int>::show() {return 0;}
 // class specialization 
 
 template <> class loc<double>{
-    public:
-    double show();
+  public:
+  double show();
 };
 
 inline double loc<double>::show(){return 0;}
