@@ -35,6 +35,7 @@ class loc<double>{
   double show();
 };
 
+//doesn't require template <>???
 inline double loc<double>::show(){return 0;}
 
 
