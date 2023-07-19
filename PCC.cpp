@@ -29,7 +29,8 @@ inline int loc<int>::show() {return 0;}
 
 // class specialization 
 
-template <> class loc<double>{
+template <>
+class loc<double>{
   public:
   double show();
 };
