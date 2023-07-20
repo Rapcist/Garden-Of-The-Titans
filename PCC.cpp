@@ -38,4 +38,28 @@ class loc<double>{
 //doesn't require template <>???
 inline double loc<double>::show(){return 0;}
 
+//-----------------
+
+
+typedef void (*ABC)(int);
+
+void f(int i){
+    cout<<i;
+}
+
+int main()
+{
+    
+    ABC r = f;
+    //void (*r)(int) = f;
+    void (*t)(int);
+    t = f;
+    (*t)(148);
+    (*r)(8);
+
+    return 0;
+}
+
+
+//-------------------
 
