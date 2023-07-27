@@ -62,4 +62,23 @@ int main()
 
 
 //-------------------
+//How predicate determines a type of object
+//(as function parameter)?
 
+//this won't compile
+template<class T>
+bool foo(T r){
+    return r;
+}
+
+template<class A,class F>
+void bar(const A &tmp,F f){
+    cout<<boolalpha<<(*f)(tmp);
+}
+int main()
+{
+    
+    bar(3,foo);
+
+    return 0;
+}
