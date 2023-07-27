@@ -64,7 +64,7 @@ int main()
 //-------------------
 //How predicate determines a type of object
 //(as function parameter)?
-
+//upd you f*ing idiot, check the predicate's definition
 //this won't compile
 template<class T>
 bool foo(T r){
