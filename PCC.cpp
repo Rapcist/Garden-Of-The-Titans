@@ -82,3 +82,18 @@ int main()
 
     return 0;
 }
+
+//-------------------
+//hehehe
+#include <iostream>
+#include <iterator>
+
+using namespace std;
+
+int main() {
+  istream_iterator<char> in_it(cin);
+  do { 
+    cout << *in_it++;
+  } while (*in_it != '.');
+  return 0;
+}
