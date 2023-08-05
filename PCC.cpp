@@ -102,15 +102,47 @@ int main() {
 //Elements of Group A4
 //(i.e. ,all even permutations)
 
+//0es - delimiters for cycles
+
+//Maybe replace returns with
+//somewhat references
+//in routines ?
+
 #include <iostream>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
+
+vector<int> cycles_gen( vector<int> & arr){
+    vector<int> new_one;
+    vector<int>::iterator p1;
+    p1=arr.begin();
+    while(p1!=arr.end()){
+        if(find(new_one.begin(),new_one.end(),
+        *p1)!=new_one.end()) {
+           // cout<<*p1;
+            p1++;
+            continue;
+  
+        }
+        int tmp = *p1;
+        do{
+            new_one.push_back(tmp);
+            tmp=arr[tmp-1];
+        }while(tmp!=*p1);
+        new_one.push_back(0);
+        p1++;
+    }
+    
+   return new_one ;
+}
+
 template <class T>
-bool per_sign(T *st,T *en){
+bool per_sign(T st,T en){
     size_t sum = 0;
     while(st!=en){
-        T *ptr = st++;
+        T ptr = st++;
         while(ptr!=en){
             if(*st>*ptr++) sum++;
         }
@@ -120,10 +152,18 @@ bool per_sign(T *st,T *en){
 
 int main()
 {
-    char a[] = "1234";
-    cout<<a<<endl;
-    while(next_permutation(a,(a+4))){
-        if(per_sign(a,a+4))cout<<a<<endl;
+    vector<int> a={1,2,3,4};
+    for(auto el:a)cout<<el;
+    cout<<endl;
+    while(next_permutation(a.begin(),a.end())){
+        
+        if(!per_sign(a.begin(),a.end())){
+            for(auto el:a) cout<<el;
+            cout<<' ';
+            vector<int> tmp = cycles_gen(a);
+            for(auto el:tmp)cout<<el;
+            cout<<endl;
+        }
     }
 
     return 0;
