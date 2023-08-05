@@ -97,3 +97,34 @@ int main() {
   } while (*in_it != '.');
   return 0;
 }
+
+//------------------
+//Elements of Group A4
+//(i.e. ,all even permutations)
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+template <class T>
+bool per_sign(T *st,T *en){
+    size_t sum = 0;
+    while(st!=en){
+        T *ptr = st++;
+        while(ptr!=en){
+            if(*st>*ptr++) sum++;
+        }
+    }
+    return sum%2;
+}
+
+int main()
+{
+    char a[] = "1234";
+    cout<<a<<endl;
+    while(next_permutation(a,(a+4))){
+        if(per_sign(a,a+4))cout<<a<<endl;
+    }
+
+    return 0;
+}
