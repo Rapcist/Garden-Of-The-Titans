@@ -21,6 +21,15 @@ public:
 StrType::StrType(){
   //????
 }
+
 StrType::StrType(const StrType &ob){
+  vector<char>::iterator p=ob.s.begin();
+  while(p!=ob.end()){
+    s.push_back(*p);
+    p++;
+  }
+}
+
+StrType::StrType(const char *cs){
   
 }
