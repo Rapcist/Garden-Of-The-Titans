@@ -168,3 +168,32 @@ int main()
 
     return 0;
 }
+//-----------------
+class cycle{
+    int *a;
+    int length;
+    
+    public:
+    cycle(int n=0) : length(n){
+        if(n>0){
+            try{
+                a = new int[length];
+            }
+            catch(bad_alloc xa){
+                exit(1);
+            }
+        }
+        for(int i=1;i<=n;++i){
+            a[i-1]=i;
+        }
+    }
+    ~cycle(){
+        if(length>0){
+            delete [] a;
+        }
+    }
+    cycle & operator=(const cycle &s){
+        
+    }
+    cycle operator*(const cycle &s);
+};
