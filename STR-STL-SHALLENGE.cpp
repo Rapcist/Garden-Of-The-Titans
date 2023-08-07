@@ -12,6 +12,8 @@ public:
   StrType(const StrType &ob);
   StrType(const char *cs);
 
+  ~StrType() {}
+
   friend istream & operator>>(istream &stream, const StrType & ob);
   friend ostream & operator<<(ostream &stream, const StrType & ob);
 
@@ -138,7 +140,19 @@ StrType::StrType operator+(const char* cs){
 }
 
 StrType operator-(const StrType &ob){
-  
+  vector<char>::iterator p = s.begin();
+  int len= ob.s.size();
+  while(p!=s.end()){
+    if(*p==ob.s[0]){
+      if(s.end()-p>=len){
+        for(int i = 0;i<len;++i){
+          if(p[i] !=ob.s[i]) 
+        }
+      }
+    }
+  }
+    p++;
+  }
 }
 StrType operator-(const char* cs){
   
