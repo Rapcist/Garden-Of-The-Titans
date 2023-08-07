@@ -21,7 +21,7 @@ public:
 
   StrType operator+(const StrType &ob);
   StrType operator+(const char* cs);
-  friend StrType operator+(const char* cs,const StrType &ob);
+  friend StrType operator+(const char* cs, StrType &ob);
 
   StrType operator-(const StrType &ob);
   StrType operator-(const char* cs);
@@ -139,6 +139,10 @@ StrType StrType::operator+(const char* cs){
   return tmp;
 }
 
+StrType operator+(const char* cs, StrType &ob){
+    return ob+cs;
+}
+
 StrType StrType::operator-(const StrType &ob){
   int i{};
   StrType tmp;
@@ -156,6 +160,5 @@ StrType StrType::operator-(const StrType &ob){
 StrType StrType::operator-(const char* cs){
   return (*this)-StrType(cs);
 }
-
 
 }
