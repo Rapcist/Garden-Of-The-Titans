@@ -43,7 +43,7 @@ public:
   bool operator ==(const char * cs) {
     int i{};
     for(;cs[i];++i);
-    return equal(cs,cs+i,s.begin());
+    return equal(s.begin(),s.end(),StrType(cs).s.begin());
   }
   bool operator <(const char * cs){
     int i{};
