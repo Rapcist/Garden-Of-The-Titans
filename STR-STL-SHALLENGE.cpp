@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <vector>
-#include <iterator>
 
 namespace MyStr{
 
@@ -140,22 +139,22 @@ StrType::StrType operator+(const char* cs){
 }
 
 StrType operator-(const StrType &ob){
+  int i{};
+  vector<char> tmp;
   vector<char>::iterator p = s.begin();
-  int len= ob.s.size();
   while(p!=s.end()){
-    if(*p==ob.s[0]){
-      if(s.end()-p>=len){
-        for(int i = 0;i<len;++i){
-          if(p[i] !=ob.s[i]) 
-        }
-      }
+    if(ob.s.[0]!=*p) tmp.push_back(*p++);
+    else{
+      for( i=0;p+i!=s.end()&&p[i]==ob.s[i];++i);
+      if(i==ob.s.size()) p+=i;
+      else tmp.push_back(*p++);
     }
   }
-    p++;
-  }
+  s.assign(tmp.begin(),tmp.end());
 }
 StrType operator-(const char* cs){
-  
+  StrType tmp(cs);
+  (*this)-tmp;
 }
 
 }
