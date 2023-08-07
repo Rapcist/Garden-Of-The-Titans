@@ -1,17 +1,21 @@
 #include <algorithm>
 #include <vector>
 
+//IT'S ALIVE!!!im not:(
 namespace MyStr{
 
 class StrType{
   vector<char> s;
+  char *ptr{};
 public:
 
   StrType();
   StrType(const StrType &ob);
   StrType(const char *cs);
 
-  ~StrType() {}
+  ~StrType() {
+      if(!ptr) delete [] ptr; 
+  }
 
   friend istream & operator>>(istream &stream, StrType & ob);
   friend ostream & operator<<(ostream &stream, const StrType & ob);
@@ -21,7 +25,7 @@ public:
 
   StrType operator+(const StrType &ob);
   StrType operator+(const char* cs);
-  friend StrType operator+(const char* cs, StrType &ob);
+  friend StrType operator+(const char* cs,const StrType &ob);
 
   StrType operator-(const StrType &ob);
   StrType operator-(const char* cs);
@@ -66,13 +70,12 @@ public:
 
   operator char *(){
     int len = s.size();
-    char *tmp=new(nothrow) char[len+1];
-    if(tmp) exit(3);
+    ptr = new char[len+1];
     for(int i=0;i<len;++i){
-      tmp[i]=s[i];
+      ptr[i]=s[i];
     }
-    tmp[s.size()]='\0';
-    return tmp;
+    ptr[s.size()]='\0';
+    return ptr;
   }
 };
 
@@ -94,7 +97,8 @@ StrType::StrType(const char *cs){
 }
 istream & operator>>(istream &stream, StrType & ob){
   char c[255];
-  stream>>c;
+  stream.getline(c,254);
+  ob.s.erase(ob.s.begin(),ob.s.end());
   for(int i=0;c[i];++i){
     ob.s.push_back(c[i]);
   }
@@ -139,8 +143,13 @@ StrType StrType::operator+(const char* cs){
   return tmp;
 }
 
-StrType operator+(const char* cs, StrType &ob){
-    return ob+cs;
+StrType operator+(const char* cs,const StrType &ob){
+    StrType tmp;
+    for(int i=0;cs[i];++i){
+      tmp.s.push_back(cs[i]);
+    }
+    tmp.s.insert(tmp.s.end(),ob.s.begin(),ob.s.end());
+    return tmp;
 }
 
 StrType StrType::operator-(const StrType &ob){
@@ -160,5 +169,6 @@ StrType StrType::operator-(const StrType &ob){
 StrType StrType::operator-(const char* cs){
   return (*this)-StrType(cs);
 }
+
 
 }
