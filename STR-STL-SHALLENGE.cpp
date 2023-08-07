@@ -17,6 +17,12 @@ public:
 
   StrType operator=(const StrType &ob);
   StrType operator=(const char * cs);
+
+  StrType operator+(const StrType &ob);
+  StrType operator+(const char* cs);
+  friend StrType operator+(const char* cs,const StrType &ob);
+
+  
 };
 
 StrType::StrType(){
