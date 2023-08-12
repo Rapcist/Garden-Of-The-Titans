@@ -5,8 +5,10 @@
 namespace MyStr{
 
 class StrType{
+  typedef std::size_t msize_t
+  const int myPos = 255;
   vector<char> s;
-  char *ptr{};
+  char *ptr = nullptr;
 public:
 
   StrType();
@@ -45,12 +47,12 @@ public:
 
   //relational with Char *
   bool operator ==(const char * cs) {
-    int i{};
+    msize_t i=0;
     for(;cs[i];++i);
     return equal(s.begin(),s.end(),StrType(cs).s.begin());
   }
   bool operator <(const char * cs){
-    int i{};
+    msize_t i=0;
     for(;cs[i];++i);
     return lexicographical_compare(s.begin(),s.end(),cs,cs+i);
   }
@@ -69,13 +71,16 @@ public:
   }
 
   operator char *(){
-    int len = s.size();
+    if(!ptr){
+    msize_t len = s.size();
     ptr = new char[len+1];
-    for(int i=0;i<len;++i){
+    for(msize_t i=0;i<len;++i){
       ptr[i]=s[i];
     }
-    ptr[s.size()]='\0';
+    ptr[len]='\0';
+    }
     return ptr;
+    
   }
 };
 
@@ -91,15 +96,15 @@ StrType::StrType(const StrType &ob){
 }
 
 StrType::StrType(const char *cs){
-  for(int i=0;cs[i];++i){
+  for(msize_t i=0;cs[i];++i){
     s.push_back(cs[i]);
   }
 }
 istream & operator>>(istream &stream, StrType & ob){
-  char c[255];
-  stream.getline(c,254);
+  char c[myPos];
+  stream.getline(c,myPos-1);
   ob.s.erase(ob.s.begin(),ob.s.end());
-  for(int i=0;c[i];++i){
+  for(msize_t i=0;c[i];++i){
     ob.s.push_back(c[i]);
   }
   return stream;
@@ -119,14 +124,14 @@ StrType & StrType::operator=(const StrType &ob){
 }
 
 StrType & StrType::operator=(const char * cs){
-  int i{};
+  msize_t i=0;
   for(;cs[i];++i);
   s.assign(cs,cs+i);
   return *this;
 }
 
 StrType StrType::operator+(const StrType &ob){
-  StrType tmp;
+  auto tmp = StrType();
   tmp.s.assign(s.begin(),s.end());
   vector<char>::const_iterator p=ob.s.begin();
   while(p!=ob.s.end()){
@@ -135,26 +140,26 @@ StrType StrType::operator+(const StrType &ob){
   return tmp;
 }
 StrType StrType::operator+(const char* cs){
-  StrType tmp;
+  auto tmp = StrType();
   tmp.s.assign(s.begin(),s.end());
-  for(int i=0;cs[i];++i){
+  for(msize_t i=0;cs[i];++i){
     tmp.s.push_back(cs[i]);
   }
   return tmp;
 }
 
-StrType operator+(const char* cs,const StrType &ob){
-    StrType tmp;
-    for(int i=0;cs[i];++i){
-      tmp.s.push_back(cs[i]);
-    }
-    tmp.s.insert(tmp.s.end(),ob.s.begin(),ob.s.end());
+StrType operator+(const char* cs,const StrType &ob){   
+  auto tmp = StrType();
+  for(int i=0;cs[i];++i){
+    tmp.s.push_back(cs[i]);
+  }
+      tmp.s.insert(tmp.s.end(),ob.s.begin(),ob.s.end());
     return tmp;
 }
 
 StrType StrType::operator-(const StrType &ob){
-  int i{};
-  StrType tmp;
+  msize_t i = 0;
+  auto tmp = StrType();
   vector<char>::iterator p = s.begin();
   while(p!=s.end()){
     if(ob.s[0]!=*p) tmp.s.push_back(*p++);
