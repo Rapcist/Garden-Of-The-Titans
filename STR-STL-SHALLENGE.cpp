@@ -12,8 +12,8 @@ class StrType{
 
   static const int myPos = 255;
   //?????
-  // cont_t s{}; 
-  cont_t s;
+  cont_t s{}; 
+  //cont_t s;
   char *ptr = nullptr;
 public:
 
@@ -92,15 +92,11 @@ public:
   }
 };
 
-/*StrType::StrType(){
-  //???
-}*/
 
 StrType::StrType(const StrType &ob){
-  coiter_t p= ob.s.begin();
-  while(p!=ob.s.end()){
-    s.push_back(*p++);
-  }
+  s.reserve(ob.s.size());
+  s.assign(ob.s.begin(),ob.s.end());
+  
 }
 
 StrType::StrType(const char *cs){
