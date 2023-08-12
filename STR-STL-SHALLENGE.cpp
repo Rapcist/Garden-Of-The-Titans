@@ -20,7 +20,8 @@ public:
   StrType(const char *cs);
 
   ~StrType() {
-      delete [] ptr; 
+// "if" because of the abundance of tmp-objects
+    if(ptr) delete [] ptr; 
   }
 
   friend istream & operator>>(istream &stream, StrType & ob);
@@ -66,7 +67,7 @@ public:
   bool operator >(const char * cs) {return !(*this<StrType(cs) && *this!=StrType(cs));}
   bool operator <=(const char * cs) {return !(*this>StrType(cs));}
 
-  int strsize() const {return s.size();}
+  msize_t strsize() const {return s.size();}
   void makestr(char *str){
     iter_t p = s.begin();
     while(p!=s.end()){
@@ -90,7 +91,7 @@ public:
 };
 
 /*StrType::StrType(){
-  //????
+  //???
 }*/
 
 StrType::StrType(const StrType &ob){
