@@ -6,8 +6,8 @@ namespace MyStr{
 
 class StrType{
   typedef std::size_t msize_t
-  typedef vector<char>::iterator iter_t;
-  typedef vector<char>::const_iterator coiter_t;
+  typedef std::vector<char>::iterator iter_t;
+  typedef std::vector<char>::const_iterator coiter_t;
 
   const int myPos = 255;
   vector<char> s;
