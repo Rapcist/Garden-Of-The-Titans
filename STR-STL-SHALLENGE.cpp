@@ -15,7 +15,7 @@ class StrType{
   char *ptr = nullptr;
 public:
 
-  StrType();
+  StrType() = default;
   StrType(const StrType &ob);
   StrType(const char *cs);
 
@@ -89,9 +89,9 @@ public:
   }
 };
 
-StrType::StrType(){
+/*StrType::StrType(){
   //????
-}
+}*/
 
 StrType::StrType(const StrType &ob){
   coiter_t p= ob.s.begin();
