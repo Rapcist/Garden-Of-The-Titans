@@ -11,6 +11,8 @@ class StrType{
   typedef cont_t::const_iterator coiter_t
 
   static const int myPos = 255;
+  //?????
+  // cont_t s{}; 
   cont_t s;
   char *ptr = nullptr;
 public:
