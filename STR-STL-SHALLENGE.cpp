@@ -6,6 +6,9 @@ namespace MyStr{
 
 class StrType{
   typedef std::size_t msize_t
+  typedef vector<char>::iterator iter_t;
+  typedef vector<char>::const_iterator coiter_t;
+
   const int myPos = 255;
   vector<char> s;
   char *ptr = nullptr;
@@ -16,7 +19,7 @@ public:
   StrType(const char *cs);
 
   ~StrType() {
-      if(!ptr) delete [] ptr; 
+      delete [] ptr; 
   }
 
   friend istream & operator>>(istream &stream, StrType & ob);
@@ -64,7 +67,7 @@ public:
 
   int strsize() const {return s.size();}
   void makestr(char *str){
-    vector<char>::iterator p = s.begin();
+    iter_t; p = s.begin();
     while(p!=s.end()){
      *str++ = *p++;
     }
@@ -89,7 +92,7 @@ StrType::StrType(){
 }
 
 StrType::StrType(const StrType &ob){
-  vector<char>::const_iterator p= ob.s.begin();
+  coiter_t p= ob.s.begin();
   while(p!=ob.s.end()){
     s.push_back(*p++);
   }
@@ -111,7 +114,7 @@ istream & operator>>(istream &stream, StrType & ob){
 }
 
 ostream & operator<<(ostream &stream, const StrType & ob){
-  vector<char>::const_iterator p=ob.s.begin();
+  coiter_t p=ob.s.begin();
   while(p!=ob.s.end()){
     stream<<*p++;
   }
@@ -133,7 +136,7 @@ StrType & StrType::operator=(const char * cs){
 StrType StrType::operator+(const StrType &ob){
   auto tmp = StrType();
   tmp.s.assign(s.begin(),s.end());
-  vector<char>::const_iterator p=ob.s.begin();
+  coiter_t p=ob.s.begin();
   while(p!=ob.s.end()){
     tmp.s.push_back(*p++);
   }
@@ -160,7 +163,7 @@ StrType operator+(const char* cs,const StrType &ob){
 StrType StrType::operator-(const StrType &ob){
   msize_t i = 0;
   auto tmp = StrType();
-  vector<char>::iterator p = s.begin();
+  iter_t p = s.begin();
   while(p!=s.end()){
     if(ob.s[0]!=*p) tmp.s.push_back(*p++);
     else{
