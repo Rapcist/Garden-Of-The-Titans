@@ -5,12 +5,13 @@
 namespace MyStr{
 
 class StrType{
-  typedef std::size_t msize_t
-  typedef std::vector<char>::iterator iter_t;
-  typedef std::vector<char>::const_iterator coiter_t;
+  typedef std::size_t msize_t;
+  typedef std::vector<char> cont_t;
+  typedef cont_t::iterator iter_t;
+  typedef cont_t::const_iterator coiter_t
 
-  const int myPos = 255;
-  vector<char> s;
+  static const int myPos = 255;
+  cont_t s;
   char *ptr = nullptr;
 public:
 
@@ -67,7 +68,7 @@ public:
 
   int strsize() const {return s.size();}
   void makestr(char *str){
-    iter_t; p = s.begin();
+    iter_t p = s.begin();
     while(p!=s.end()){
      *str++ = *p++;
     }
@@ -77,8 +78,9 @@ public:
     if(!ptr){
     msize_t len = s.size();
     ptr = new char[len+1];
-    for(msize_t i=0;i<len;++i){
-      ptr[i]=s[i];
+    iter_t p = s.begin();
+    for(msize_t i=0;p != s.end();++i){
+      ptr[i]=*p++;
     }
     ptr[len]='\0';
     }
