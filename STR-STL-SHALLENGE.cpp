@@ -3,13 +3,15 @@
 
 //IT'S ALIVE!!!im not:(
 namespace MyStr{ 
-//fck typedef
+//fck std
   enum {myPos=255};
   typedef std::size_t msize_t; 
-   typedef std::vector<char> cont_t; 
-   typedef cont_t::iterator iter_t; 
-   typedef cont_t::const_iterator coiter_t ;
-  
+  typedef std::vector<char> cont_t; 
+  typedef cont_t::iterator iter_t; 
+  typedef cont_t::const_iterator coiter_t ;
+  typedef std::ostream mostream;
+  typedef std::istream mostream;
+
  class StrType{ 
    
    //static const int myPos = 255; 
@@ -28,8 +30,8 @@ namespace MyStr{
      if(ptr) delete [] ptr;  
    } 
   
-   friend istream & operator>>(istream &stream, StrType & ob); 
-   friend ostream & operator<<(ostream &stream, const StrType & ob); 
+   friend mistream & operator>>(mistream &stream, StrType & ob); 
+   friend mostream & operator<<(mostream &stream, const StrType & ob); 
   
    StrType & operator=(const StrType &ob); 
    StrType & operator=(const char * cs); 
@@ -106,7 +108,7 @@ namespace MyStr{
      s.push_back(cs[i]); 
    } 
  } 
- istream & operator>>(istream &stream, StrType & ob){ 
+ mistream & operator>>(mistream &stream, StrType & ob){ 
    char c[myPos]; 
    stream.getline(c,myPos-1); 
    ob.s.erase(ob.s.begin(),ob.s.end()); 
@@ -116,7 +118,7 @@ namespace MyStr{
    return stream; 
  } 
   
- ostream & operator<<(ostream &stream, const StrType & ob){ 
+ mostream & operator<<(mostream &stream, const StrType & ob){ 
    coiter_t p=ob.s.begin(); 
    while(p!=ob.s.end()){ 
      stream<<*p++; 
