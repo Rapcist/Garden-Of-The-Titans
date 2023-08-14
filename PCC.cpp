@@ -197,3 +197,57 @@ class cycle{
     }
     cycle operator*(const cycle &s);
 };
+//-------++-
+#include<iostream>
+#include<string>
+using namespace std;
+class code{
+    size_t siz=0;
+    int *arr=nullptr;
+    public:
+    code(const string& s):arr(new int[s.size()]),siz(s.size()){
+      for(size_t i=0;i<s.size();++i) arr[i]=s[i]%2;
+    }
+    const int *get() const{
+        return arr;
+    }
+    size_t size() const{
+        return siz;
+    }
+    const int operator[](size_t i) const{
+        try{
+            if(i>=siz) throw 0;
+            return arr[i];
+        }
+        catch(...){
+            cout<<"Un-or-Ov-flow";
+            exit(1);
+        }
+    }
+    
+
+};
+
+size_t dist(const code& s1,const code& s2){
+    size_t sum = 0;
+    size_t len = s1.size()>s2.size()?s2.size():s1.size();
+    for(int i=0;i<len;++i){
+        if(s1[i]!=s2[i]) sum++;
+    }
+    return sum;
+}
+
+int main()
+{
+    string ex[] ={"00110", "10011","01101","11000"};
+    int max = 0;
+    for(int i=0;i<4;++i){
+        for(int j=i+1;j<4;++j) {
+            if(dist(ex[i],ex[j])>max) max = dist(ex[i],ex[j]);
+        }
+    }
+    cout<<max;
+    return 0;
+}
+
+//------
