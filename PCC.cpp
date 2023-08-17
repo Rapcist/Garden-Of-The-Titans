@@ -250,4 +250,24 @@ int main()
     return 0;
 }
 
-//------
+//-------------------
+class A{
+    public:
+    static constexpr int i{5};
+    static const int j;
+} ;
+
+const int A::j = 7;
+
+template<class T, class P>
+auto f(T a,P b){
+  return a>b?a:b;
+}
+int main()
+{
+  cout<<A::i;
+return 0;
+}
+
+
+//-------------------
