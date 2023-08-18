@@ -10,3 +10,4 @@ the contents of these headers were placed in the std namespace."
 SemiAnswer: 
 <cstdio> header file will always import all its identifiers in the std namespace and maybe in the global namespace.
 --------------
+https://nsu-programming.github.io/textbook/env/setup-win.html
