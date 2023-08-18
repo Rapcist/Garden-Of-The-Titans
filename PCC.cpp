@@ -251,6 +251,8 @@ int main()
 }
 
 //-------------------
+#include <utility>
+#include <iostream>
 class A{
     public:
     static constexpr int i{5};
@@ -265,7 +267,10 @@ auto f(T a,P b){
 }
 int main()
 {
-  cout<<A::i;
+  cout<<A::i<<endl;
+pair two {6,one};
+  auto [x,y] {two};
+  cout<<x*(*y);
 return 0;
 }
 
