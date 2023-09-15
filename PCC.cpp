@@ -116,8 +116,7 @@ using namespace std;
 
 vector<int> cycles_gen( vector<int> & arr){
     vector<int> new_one;
-    vector<int>::iterator p1;
-    p1=arr.begin();
+    auto p1=arr.begin();
     while(p1!=arr.end()){
         if(find(new_one.begin(),new_one.end(),
         *p1)!=new_one.end()) {
@@ -142,31 +141,35 @@ template <class T>
 bool per_sign(T st,T en){
     size_t sum = 0;
     while(st!=en){
-        T ptr = st++;
+        auto ptr = st+1;
         while(ptr!=en){
             if(*st>*ptr++) sum++;
         }
+        st++;
     }
     return sum%2;
 }
 
 int main()
 {
-    vector<int> a={1,2,3,4};
-    for(auto el:a)cout<<el;
-    cout<<endl;
-    while(next_permutation(a.begin(),a.end())){
+    vector<int> a{1,2,3,4};
+    size_t r {0};
+    bool red {true};
+    while(red){
         
         if(!per_sign(a.begin(),a.end())){
+            ++r;
             for(auto el:a) cout<<el;
             cout<<' ';
             vector<int> tmp = cycles_gen(a);
             for(auto el:tmp)cout<<el;
             cout<<endl;
         }
+        red = next_permutation(a.begin(),a.end());
     }
-
+    cout<<r;
     return 0;
+}
 }
 //-----------------
 class cycle{
