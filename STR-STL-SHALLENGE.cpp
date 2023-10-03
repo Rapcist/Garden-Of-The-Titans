@@ -3,69 +3,61 @@
 
 //IT'S ALIVE!!!im not:(
 namespace MyStr{ 
-//fck std
-  enum {myPos=255};
-  typedef std::size_t msize_t; 
-  typedef std::vector<char> cont_t; 
-  typedef cont_t::iterator iter_t; 
-  typedef cont_t::const_iterator coiter_t ;
-  typedef std::ostream mostream;
-  typedef std::istream mostream;
+  constexpr int myPos {255};
+  using cont_t = std::vector<char>; 
+  using iter_t = cont_t::iterator; 
+  using coiter_t = cont_t::const_iterator;
 
  class StrType{ 
-   
-   //static const int myPos = 255; 
-   //????? 
-   cont_t s{};  
-   //cont_t s; 
-   char *ptr = nullptr; 
+   cont_t m_str; 
+   char *m_ptr = nullptr; 
  public: 
   
-   StrType() = default; 
-   StrType(const StrType &ob); 
-   StrType(const char *cs); 
+   constexpr StrType() = default; 
+   constexpr StrType(const StrType &ob); 
+   constexpr StrType(const char *cs); 
   
    ~StrType() { 
  // "if" because of the abundance of tmp-objects 
-     if(ptr) delete [] ptr;  
+     if(m_ptr) delete [] m_m_ptr;  
    } 
   
-   friend mistream & operator>>(mistream &stream, StrType & ob); 
-   friend mostream & operator<<(mostream &stream, const StrType & ob); 
+   friend std::istream & operator>>(std::istream &stream, StrType & ob); 
+   friend std::ostream & operator<<(std::ostream &stream, const StrType & ob); 
   
    StrType & operator=(const StrType &ob); 
    StrType & operator=(const char * cs); 
   
-   StrType operator+(const StrType &ob); 
-   StrType operator+(const char* cs); 
+   StrType operator+(const StrType &ob) const; 
+   StrType operator+(const char* cs) const; 
    friend StrType operator+(const char* cs,const StrType &ob); 
   
-   StrType operator-(const StrType &ob); 
-   StrType operator-(const char* cs); 
+   StrType operator-(const StrType &ob) const; 
+   StrType operator-(const char* cs) const; 
   
    //relational with StrType 
-   bool operator ==(const StrType & ob) { 
-     return equal(s.begin(),s.end(),ob.s.begin()); 
+   bool operator ==(const StrType & ob) const{ 
+     return equal(m_str.begin(),m_str.end(),ob.m_str.begin()); 
    } 
-   bool operator <(const StrType & ob){ 
-     return lexicographical_compare(s.begin(),s.end(),ob.s.begin(),ob.s.end()); 
+   bool operator <(const StrType & ob) const{ 
+     return lexicographical_compare(m_str.begin(),m_str.end(),ob.m_str.begin(),ob.m_str.end()); 
    } 
-  
-   bool operator !=(const StrType & ob) {return !(*this==ob);} 
-   bool operator >=(const StrType & ob) {return !(*this<ob);} 
-   bool operator >(const StrType & ob) {return !(*this<ob && *this!=ob);} 
-   bool operator <=(const StrType & ob) {return !(*this>ob);} 
+   
+   bool operator !=(const StrType & ob) const {return !(*this==ob);} 
+   bool operator >=(const StrType & ob) const {return !(*this<ob);} 
+   bool operator >(const StrType & ob) const {return !(*this<ob && *this!=ob);} 
+   bool operator <=(const StrType & ob) const {return !(*this>ob);} 
   
    //relational with Char * 
    bool operator ==(const char * cs) { 
-     msize_t i=0; 
+     std::size_t i=0; 
      for(;cs[i];++i); 
-     return equal(s.begin(),s.end(),StrType(cs).s.begin()); 
+     return equal(m_str.begin(),m_str.end(),StrType(cs).m_str.begin()); 
    } 
    bool operator <(const char * cs){ 
-     msize_t i=0; 
+     std::size_t i=0; 
      for(;cs[i];++i); 
-     return lexicographical_compare(s.begin(),s.end(),cs,cs+i); 
+     return lexicographical_compare(m_str.begin(),m_str.end(),cs,cs+i); 
    } 
   
    bool operator !=(const char * cs) {return !(*this==StrType(cs));} 
@@ -73,66 +65,64 @@ namespace MyStr{
    bool operator >(const char * cs) {return !(*this<StrType(cs) && *this!=StrType(cs));} 
    bool operator <=(const char * cs) {return !(*this>StrType(cs));} 
   
-   msize_t strsize() const {return s.size();} 
+   std::size_t strsize() const {return m_str.size();} 
    void makestr(char *str){ 
-     iter_t p = s.begin(); 
-     while(p!=s.end()){ 
+     iter_t p = m_str.begin(); 
+     while(p!=m_str.end()){ 
       *str++ = *p++; 
      } 
    } 
   
    operator char *(){ 
-     if(!ptr){ 
-     msize_t len = s.size(); 
-     ptr = new char[len+1]; 
-     iter_t p = s.begin(); 
-     for(msize_t i=0;p != s.end();++i){ 
-       ptr[i]=*p++; 
+     if(!m_ptr){ 
+     std::size_t len = m_str.size(); 
+     m_ptr = new char[len+1]; 
+     iter_t p = m_str.begin(); 
+     for(std::size_t i=0;p != m_str.end();++i){ 
+       m_ptr[i]=*p++; 
      } 
-     ptr[len]='\0'; 
+     m_ptr[len]='\0'; 
      } 
-     return ptr; 
+     return m_ptr; 
   
    } 
  }; 
   
   
- StrType::StrType(const StrType &ob){ 
-   s.reserve(ob.s.size()); 
-   s.assign(ob.s.begin(),ob.s.end()); 
-  
+ StrType::StrType(const StrType &ob): m_str(ob.m_str){ 
+
  } 
   
  StrType::StrType(const char *cs){ 
-   for(msize_t i=0;cs[i];++i){ 
-     s.push_back(cs[i]); 
+   for(std::size_t i=0;cs[i];++i){ 
+     m_str.push_back(cs[i]); 
    } 
  } 
- mistream & operator>>(mistream &stream, StrType & ob){ 
+ std::istream & operator>>(std::istream &stream, StrType & ob){ 
    char c[myPos]; 
    stream.getline(c,myPos-1); 
-   ob.s.erase(ob.s.begin(),ob.s.end()); 
-   for(msize_t i=0;c[i];++i){ 
-     ob.s.push_back(c[i]); 
+   ob.m_str.erase(ob.s.begin(),ob.s.end()); 
+   for(std::size_t i=0;c[i];++i){ 
+     ob.m_str.push_back(c[i]); 
    } 
    return stream; 
  } 
   
- mostream & operator<<(mostream &stream, const StrType & ob){ 
-   coiter_t p=ob.s.begin(); 
-   while(p!=ob.s.end()){ 
+ std::ostream & operator<<(std::ostream &stream, const StrType & ob){ 
+   coiter_t p=ob.m_str.begin(); 
+   while(p!=ob.m_str.end()){ 
      stream<<*p++; 
    } 
    return stream; 
  } 
   
  StrType & StrType::operator=(const StrType &ob){ 
-   s.assign(ob.s.begin(),ob.s.end()); 
+   m_str.assign(ob.m_str.begin(),ob.m_str.end()); 
    return *this; 
  } 
   
  StrType & StrType::operator=(const char * cs){ 
-   msize_t i=0; 
+   std::size_t i=0; 
    for(;cs[i];++i); 
    s.assign(cs,cs+i); 
    return *this; 
@@ -140,18 +130,18 @@ namespace MyStr{
   
  StrType StrType::operator+(const StrType &ob){ 
    auto tmp = StrType(); 
-   tmp.s.assign(s.begin(),s.end()); 
-   coiter_t p=ob.s.begin(); 
-   while(p!=ob.s.end()){ 
-     tmp.s.push_back(*p++); 
+   tmp.s.assign(m_str.begin(),m_str.end()); 
+   coiter_t p=ob.m_str.begin(); 
+   while(p!=ob.m_str.end()){ 
+     tmp.m_str.push_back(*p++); 
    } 
    return tmp; 
  } 
  StrType StrType::operator+(const char* cs){ 
    auto tmp = StrType(); 
-   tmp.s.assign(s.begin(),s.end()); 
-   for(msize_t i=0;cs[i];++i){ 
-     tmp.s.push_back(cs[i]); 
+   tmp.m_str.assign(s.begin(),s.end()); 
+   for(std::size_t i=0;cs[i];++i){ 
+     tmp.m_str.push_back(cs[i]); 
    } 
    return tmp; 
  } 
@@ -159,22 +149,22 @@ namespace MyStr{
  StrType operator+(const char* cs,const StrType &ob){    
    auto tmp = StrType(); 
    for(int i=0;cs[i];++i){ 
-     tmp.s.push_back(cs[i]); 
+     tmp.m_str.push_back(cs[i]); 
    } 
-       tmp.s.insert(tmp.s.end(),ob.s.begin(),ob.s.end()); 
+       tmp.m_str.insert(tmp.m_str.end(),ob.m_str.begin(),ob.m_str.end()); 
      return tmp; 
  } 
   
  StrType StrType::operator-(const StrType &ob){ 
-   msize_t i = 0; 
+   std::size_t i = 0; 
    auto tmp = StrType(); 
-   iter_t p = s.begin(); 
-   while(p!=s.end()){ 
-     if(ob.s[0]!=*p) tmp.s.push_back(*p++); 
+   iter_t p = m_str.begin(); 
+   while(p!=m_str.end()){ 
+     if(ob.m_str[0]!=*p) tmp.m_str.push_back(*p++); 
      else{ 
-       for( i=0;p+i!=s.end()&&p[i]==ob.s[i];++i); 
-       if(i==ob.s.size()) p+=i; 
-       else tmp.s.push_back(*p++); 
+       for( i=0;p+i!=m_str.end()&&p[i]==ob.m_str[i];++i); 
+       if(i==ob.m_str.size()) p+=i; 
+       else tmp.m_str.push_back(*p++); 
      } 
    } 
    return tmp; 
@@ -183,6 +173,4 @@ namespace MyStr{
    return (*this)-StrType(cs); 
  } 
   
-  
  }
-
