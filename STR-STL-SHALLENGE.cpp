@@ -1,26 +1,51 @@
 #include <algorithm>
 #include <vector>
+#include <stdexcept>
 
-//IT'S ALIVE!!!im not:(
 namespace MyStr{ 
-  constexpr int myPos {255};
-  using cont_t = std::vector<char>; 
-  using iter_t = cont_t::iterator; 
-  using coiter_t = cont_t::const_iterator;
 
+  const int myPos {255};
+  
+//simple analog unique_ptr<char> (smart pointer)
+ class CharPtr{
+	 
+	char *m_ptr {nullptr};
+	
+public:
+	//CONSTRUCTORS DESTRUCTORS COPYes 
+	constexpr CharPtr() = default ;
+	explicit CharPtr(char *ob}  : m_ptr{ob} {}
+	CharPtr (const CharPtr & ob) = delete;
+	CharPtr & operator=(CharPtr & ob}  {m_ptr = ob.m_ptr; ob.m_ptr = nullptr; return *this;}
+	~CharPtr()  {if(!m_ptr) delete [] m_ptr;}
+	
+	//METHODS
+	std::size_t length () const {std::size_t len{0}; while(m_ptr[len]) ++len; return len;}
+	bool isEmpty() const {return m_ptr == nullptr;}
+	char & operator*() {return *m_ptr;}
+	char & operator[](std::size_t pos) noexcept {
+		if(pos<=length()) return m_ptr[pos];
+	}
+	char * data() {return m_ptr;}
+	
+ };
+ 
  class StrType{ 
+   //CONTAINER AND ITERATORS
+   using cont_t = std::vector<char>; 
+   using iter_t = cont_t::iterator; 
+   using coiter_t = cont_t::const_iterator;
+   
    cont_t m_str; 
-   char *m_ptr = nullptr; 
+   CharPtr m_ptr;
  public: 
   
-   constexpr StrType() = default; 
-   constexpr StrType(const StrType &ob); 
-   constexpr StrType(const char *cs); 
-  
-   ~StrType() { 
- // "if" because of the abundance of tmp-objects 
-     if(m_ptr) delete [] m_m_ptr;  
-   } 
+   StrType() = default; 
+   StrType(const StrType &ob) : m_str{ob.m_str} {}
+   StrType(const char *cs); 
+   ~StrType() = default;
+   
+
   
    friend std::istream & operator>>(std::istream &stream, StrType & ob); 
    friend std::ostream & operator<<(std::ostream &stream, const StrType & ob); 
@@ -49,67 +74,65 @@ namespace MyStr{
    bool operator <=(const StrType & ob) const {return !(*this>ob);} 
   
    //relational with Char * 
-   bool operator ==(const char * cs) { 
-     std::size_t i=0; 
-     for(;cs[i];++i); 
+   bool operator ==(const char * cs)const { 
      return equal(m_str.begin(),m_str.end(),StrType(cs).m_str.begin()); 
    } 
-   bool operator <(const char * cs){ 
+   bool operator <(const char * cs) const{ 
      std::size_t i=0; 
      for(;cs[i];++i); 
      return lexicographical_compare(m_str.begin(),m_str.end(),cs,cs+i); 
    } 
   
-   bool operator !=(const char * cs) {return !(*this==StrType(cs));} 
-   bool operator >=(const char * cs) {return !(*this<StrType(cs));} 
-   bool operator >(const char * cs) {return !(*this<StrType(cs) && *this!=StrType(cs));} 
-   bool operator <=(const char * cs) {return !(*this>StrType(cs));} 
+   bool operator !=(const char * cs) const {return !(*this==StrType(cs));} 
+   bool operator >=(const char * cs) const {return !(*this<StrType(cs));} 
+   bool operator >(const char * cs) const {return !(*this<StrType(cs) && *this!=StrType(cs));} 
+   bool operator <=(const char * cs) const {return !(*this>StrType(cs));} 
   
    std::size_t strsize() const {return m_str.size();} 
-   void makestr(char *str){ 
-     iter_t p = m_str.begin(); 
-     while(p!=m_str.end()){ 
+   
+   void makestr(char *str){
+     iter_t p { m_str.begin()} ; 
+     while(str && p!=m_str.end()){ 
       *str++ = *p++; 
      } 
    } 
   
    operator char *(){ 
-     if(!m_ptr){ 
-     std::size_t len = m_str.size(); 
-     m_ptr = new char[len+1]; 
-     iter_t p = m_str.begin(); 
-     for(std::size_t i=0;p != m_str.end();++i){ 
+     if(m_ptr.isEmpty()){ 
+     std::size_t len { m_str.size()}; 
+     m_ptr { new char[len+1]}; 
+     iter_t p { m_str.begin()}; 
+     for(std::size_t i{0};p != m_str.end();++i){ 
        m_ptr[i]=*p++; 
      } 
      m_ptr[len]='\0'; 
      } 
-     return m_ptr; 
+     return m_ptr.data(); 
   
    } 
  }; 
-  
-  
- StrType::StrType(const StrType &ob): m_str(ob.m_str){ 
-
- } 
+//|=============================|
+//|END OF THE SCOPE OF THE CLASS|
+//|=============================|
   
  StrType::StrType(const char *cs){ 
-   for(std::size_t i=0;cs[i];++i){ 
+   for(std::size_t i{0};cs[i];++i){ 
      m_str.push_back(cs[i]); 
    } 
  } 
  std::istream & operator>>(std::istream &stream, StrType & ob){ 
    char c[myPos]; 
+   cont_t tmp;
    stream.getline(c,myPos-1); 
-   ob.m_str.erase(ob.s.begin(),ob.s.end()); 
    for(std::size_t i=0;c[i];++i){ 
-     ob.m_str.push_back(c[i]); 
+     tmp.push_back(c[i]); 
    } 
+   m_str = tmp;
    return stream; 
  } 
   
  std::ostream & operator<<(std::ostream &stream, const StrType & ob){ 
-   coiter_t p=ob.m_str.begin(); 
+   coiter_t p {ob.m_str.begin()}; 
    while(p!=ob.m_str.end()){ 
      stream<<*p++; 
    } 
@@ -122,55 +145,54 @@ namespace MyStr{
  } 
   
  StrType & StrType::operator=(const char * cs){ 
-   std::size_t i=0; 
+   std::size_t i{0}; 
    for(;cs[i];++i); 
    s.assign(cs,cs+i); 
    return *this; 
  } 
   
- StrType StrType::operator+(const StrType &ob){ 
-   auto tmp = StrType(); 
-   tmp.s.assign(m_str.begin(),m_str.end()); 
+ StrType StrType::operator+(const StrType &ob) const{ 
+   StrType tmp {*this};
    coiter_t p=ob.m_str.begin(); 
    while(p!=ob.m_str.end()){ 
      tmp.m_str.push_back(*p++); 
    } 
    return tmp; 
  } 
- StrType StrType::operator+(const char* cs){ 
-   auto tmp = StrType(); 
-   tmp.m_str.assign(s.begin(),s.end()); 
-   for(std::size_t i=0;cs[i];++i){ 
+ StrType StrType::operator+(const char* cs) const{ 
+   StrType tmp {*this}; 
+   for(std::size_t i{0};cs[i];++i){ 
      tmp.m_str.push_back(cs[i]); 
    } 
    return tmp; 
  } 
   
  StrType operator+(const char* cs,const StrType &ob){    
-   auto tmp = StrType(); 
-   for(int i=0;cs[i];++i){ 
-     tmp.m_str.push_back(cs[i]); 
-   } 
-       tmp.m_str.insert(tmp.m_str.end(),ob.m_str.begin(),ob.m_str.end()); 
-     return tmp; 
+    StrType tmp {cs}; 
+    tmp.m_str.insert(tmp.m_str.end(),ob.m_str.begin(),ob.m_str.end()); 
+    return tmp; 
  } 
   
- StrType StrType::operator-(const StrType &ob){ 
-   std::size_t i = 0; 
-   auto tmp = StrType(); 
-   iter_t p = m_str.begin(); 
+  //SUBTRACTING ALL SUBSTINRGS
+ StrType StrType::operator-(const StrType &ob) const{ 
+   std::size_t i {0}; 
+   StrType tmp; 
+   iter_t p { m_str.begin()}; 
    while(p!=m_str.end()){ 
      if(ob.m_str[0]!=*p) tmp.m_str.push_back(*p++); 
      else{ 
-       for( i=0;p+i!=m_str.end()&&p[i]==ob.m_str[i];++i); 
+       for( i{0};p+i!=m_str.end()&&p[i]==ob.m_str[i];++i); 
        if(i==ob.m_str.size()) p+=i; 
        else tmp.m_str.push_back(*p++); 
      } 
    } 
    return tmp; 
  } 
- StrType StrType::operator-(const char* cs){ 
+ StrType StrType::operator-(const char* cs) const{ 
    return (*this)-StrType(cs); 
  } 
   
  }
+//|=========================================|
+//|END OF THE SCOPE OF THE NAMESPACE "MyStr"|
+//|=========================================|
