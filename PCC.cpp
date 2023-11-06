@@ -279,3 +279,11 @@ return 0;
 
 
 //-------------------
+
+template <typename U, typename T>
+std::shared_ptr<T> make_aliased(const std::shared_ptr<U>& owner, T* ptr) {
+    if (owner.use_count() == 0) return {};
+    return std::shared_ptr<T>(owner, ptr);
+}
+
+//-------------------
