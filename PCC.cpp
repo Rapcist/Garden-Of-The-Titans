@@ -287,3 +287,31 @@ std::shared_ptr<T> make_aliased(const std::shared_ptr<U>& owner, T* ptr) {
 }
 
 //-------------------
+// u are funny guy, Sally
+#include<iostream>
+
+using namespace std;
+class B{
+    virtual void foo() const { cout<<"B foo ";}
+    public:
+    friend void bar(const B & rhs, const B & lhs);
+    virtual ~B() = default;
+   
+};
+class D : public B{
+    void foo() const override{
+        cout<<"D foo ";
+    }
+};
+void bar(const B & rhs, const B & lhs){
+    rhs.foo();
+    lhs.foo();
+}
+int main()
+{
+    B one;
+    D two;
+    bar( two, one);
+    return 0;
+}
+//--------------
