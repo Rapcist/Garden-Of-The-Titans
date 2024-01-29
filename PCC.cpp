@@ -315,3 +315,27 @@ int main()
     return 0;
 }
 //--------------
+//
+class A{
+    public:
+    A(int a) : i{a} {}
+    
+    explicit operator int() const{
+        return i;
+    }
+    int i{0};
+};
+A operator+(const A & rhs, const A & lhs){
+    return A{rhs.i*lhs.i };
+}
+int main()
+{
+    A one {4};
+    int two {static_cast<int>(one)+3};
+    int three {one + 3};
+    cout<<two<<endl<<three;
+    //7
+    //12
+    return 0;
+}
+//-----+-----+-------
