@@ -339,3 +339,18 @@ int main()
     return 0;
 }
 //-----+-----+-------
+#include<array>
+#include<initializer_list>
+
+class BasisEl{
+  std::array<int,4> m_arr {0};
+  public:
+  BasisEl(std::initializer_list<int>);
+  
+  BasisEl operator+(
+  BasisEl operator-
+  BasisEl operator*
+
+
+
+};
